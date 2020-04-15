@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	fmt.Println(isPalindrome(010))
+	fmt.Println(isValid("()[]{}"))
 }
 
 /*  1. Two Sum  */
@@ -216,6 +216,54 @@ func longestCommonPrefix(strs []string) string {
 		longest = s[:i+1]
 	}
 	return longest
+}
+
+func isValid(s string) bool {
+	if s == "" {
+		return true
+	}
+	if len(s)%2 != 0 {
+		return false
+	}
+	stack := []byte{}
+	for i := 0; i < len(s); i++ {
+		switch s[i] {
+		case '(':
+			stack = append(stack, s[i])
+		case '[':
+			stack = append(stack, s[i])
+		case '{':
+			stack = append(stack, s[i])
+		case ')':
+			if len(stack) == 0 {
+				return false
+			}
+			if stack[len(stack)-1] != '(' {
+				return false
+			}
+			stack = stack[:len(stack)-1]
+		case ']':
+			if len(stack) == 0 {
+				return false
+			}
+			if stack[len(stack)-1] != '[' {
+				return false
+			}
+			stack = stack[:len(stack)-1]
+		case '}':
+			if len(stack) == 0 {
+				return false
+			}
+			if stack[len(stack)-1] != '{' {
+				return false
+			}
+			stack = stack[:len(stack)-1]
+		}
+	}
+	if len(stack) != 0 {
+		return false
+	}
+	return true
 }
 
 /* Definition for singly-linked list. */
