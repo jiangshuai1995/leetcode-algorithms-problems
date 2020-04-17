@@ -6,7 +6,12 @@ import (
 )
 
 func main() {
-	fmt.Println(isValid("()[]{}"))
+	//fmt.Println(isValid("()[]{}"))
+	a := []int{0, 0, 1, 1, 1, 2, 2, 3, 3, 4}
+	fmt.Println(removeDuplicates(a))
+	for i := 0; i < len(a); i++ {
+		fmt.Print(a[i])
+	}
 }
 
 /*  1. Two Sum  */
@@ -264,6 +269,42 @@ func isValid(s string) bool {
 		return false
 	}
 	return true
+}
+
+func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
+	if l1 == nil && l2 == nil {
+		return nil
+	}
+	list := []*ListNode{}
+	for l1 != nil && l2 != nil {
+		if l1.Val < l2.Val {
+			list = append(list, l1)
+			l1 = l1.Next
+		} else {
+			list = append(list, l2)
+			l2 = l2.Next
+		}
+	}
+	if l1 == nil {
+		list = append(list, l2)
+	} else {
+		list = append(list, l1)
+	}
+	for i := 1; i < len(list); i++ {
+		list[i-1].Next = list[i]
+	}
+	return list[0]
+}
+
+func removeDuplicates(nums []int) int {
+
+	for i := 1; i < len(nums); i++ {
+		if nums[i] == nums[i-1] {
+			nums = append(nums[:i], nums[i+1:]...)
+			i--
+		}
+	}
+	return len(nums)
 }
 
 /* Definition for singly-linked list. */
