@@ -6,12 +6,7 @@ import (
 )
 
 func main() {
-	//fmt.Println(isValid("()[]{}"))
-	a := []int{0, 0, 1, 1, 1, 2, 2, 3, 3, 4}
-	fmt.Println(removeDuplicates(a))
-	for i := 0; i < len(a); i++ {
-		fmt.Print(a[i])
-	}
+	convert("LEETCODEISHI", 4)
 }
 
 /*  1. Two Sum  */
@@ -296,6 +291,7 @@ func mergeTwoLists(l1 *ListNode, l2 *ListNode) *ListNode {
 	return list[0]
 }
 
+/* TODO 双指针算法  */
 func removeDuplicates(nums []int) int {
 
 	for i := 1; i < len(nums); i++ {
@@ -305,6 +301,89 @@ func removeDuplicates(nums []int) int {
 		}
 	}
 	return len(nums)
+}
+
+func removeElement(nums []int, val int) int {
+	for i := 0; i < len(nums); i++ {
+		if nums[i] == val {
+			nums = append(nums[:i], nums[i+1:]...)
+			i--
+		}
+	}
+	return len(nums)
+}
+
+/* TODO KMP算法  */
+func strStr(haystack string, needle string) int {
+	if len(needle) == 0 {
+		return 0
+	}
+	length := len(haystack) - len(needle)
+	for i := 0; i <= length; i++ {
+		for j := 0; j < len(needle); j++ {
+			if haystack[i+j] != needle[j] {
+				break
+			} else {
+				if j == len(needle)-1 {
+					return i
+				}
+			}
+		}
+	}
+	return -1
+}
+
+/* TODO 二分法查找 */
+func searchInsert(nums []int, target int) int {
+	for i := 0; i < len(nums); i++ {
+		if target <= nums[i] {
+			return i
+		}
+	}
+	return len(nums)
+}
+
+func countAndSay(n int) string {
+	if n == 1 {
+		return "1"
+	}
+	s := "1"
+	for i := 1; i < n; i++ {
+		cal := 1
+		new_s := ""
+		for j := 0; j < len(s); j++ {
+			if j == len(s)-1 {
+				new_s += fmt.Sprintf("%d%s", cal, string(s[j])) //s[j:j+1] 使用string转换会快一些
+			} else {
+				if s[j] != s[j+1] {
+					new_s += fmt.Sprintf("%d%s", cal, string(s[j]))
+					cal = 1
+				} else {
+					cal++
+				}
+			}
+		}
+		//fmt.Println(new_s)
+		s = new_s
+	}
+	return s
+}
+
+func convert(s string, numRows int) string {
+	if numRows == 1 {
+		return s
+	}
+	arr := ((numRows - 1) * 2)
+	//i := len(s) / ((numRows - 1) * 2)
+	//j := len(s) % ((numRows - 1) * 2)
+	new := ""
+	for x := 0; x < numRows; x++ {
+		for ii := 0; ii < len(s); ii++ {
+			new += string(s[ii*arr+x])
+		}
+		fmt.Println(new)
+	}
+	return new
 }
 
 /* Definition for singly-linked list. */
